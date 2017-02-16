@@ -96,10 +96,11 @@ namespace PDFToolbox.ViewModels
 
         public float Rotation
         {
-            get { return _page.rotation.FloatValue; }
+            get { return _page.rotation/*.FloatValue*/; }
             set
             {
-                _page.SetRotation(value);
+                //_page.SetRotation(value);
+                _page.rotation = value;
                 OnPropertyChanged("Rotation");
             }
         }
@@ -107,7 +108,8 @@ namespace PDFToolbox.ViewModels
         // FIXME: find a better way to handle 2 rotations. Maybe find a way to reduce it down to 1 again...
         public float FlatRotation
         {
-            get { return _page.rotation.FloatValue + _page.originalRotation.FloatValue; }
+            //get { return _page.rotation.FloatValue + _page.originalRotation.FloatValue; }
+            get { return _page.rotation + _page.originalRotation; }
             /*set
             {
                 _page.SetRotation(value);

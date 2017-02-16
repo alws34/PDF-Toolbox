@@ -6,6 +6,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 using iTextSharp.text.pdf;
 
@@ -77,6 +78,9 @@ namespace PDFToolbox.IO
             //iTextSharp.text.pdf.BaseFont baseFont;
             //iTextSharp.text.Font font;
             PdfReader srcReader;
+            float pageRotationInRads;
+            System.Windows.Point pageOrigin;
+            System.Windows.Point stringOffset;
             //ColumnText ct;
             PdfCopy.PageStamp pageStamp;
 
@@ -97,6 +101,8 @@ namespace PDFToolbox.IO
                 foreach (ViewModels.PageViewModel vm in document.Pages)
                 {
                     srcDocPath = FileIO.ToTempFileName(vm.DocName);
+                    pageRotationInRads = vm.FlatRotation * (float)(Math.PI / 180);
+
 
                     // Copy pageDict from source...
                     if (Path.GetExtension(srcDocPath).ToUpperInvariant() == ".PDF")
@@ -105,15 +111,33 @@ namespace PDFToolbox.IO
                         pageDict = srcReader.GetPageN(vm.Number);
                         importedPage = targetPdf.GetImportedPage(srcReader, vm.Number);
                         pageStamp = targetPdf.CreatePageStamp(importedPage);
+                        //pageOrigin = new System.Windows.Point(Math.Cos(pageRotationInRads - (90f * (float)(Math.PI / 180))) * importedPage.Width,
+                        //                                      Math.Sin(pageRotationInRads - (180f * (float)(Math.PI / 180))) * importedPage.Height);
+                        pageOrigin = new System.Windows.Point(Math.Cos(pageRotationInRads) * importedPage.Width,
+                                                               Math.Sin(pageRotationInRads) * importedPage.Height);
 
                         //add any strings
-                        foreach(Common.UIString str in vm.Strings)
+                        foreach (Common.UIString str in vm.Strings)
                         {
+                            // account for page rotation
+                            stringOffset = new System.Windows.Point(Math.Cos(pageRotationInRads) * str.X,
+                                                                    Math.Sin(pageRotationInRads) * str.Y);
+                            //Math.Cos(vm.FlatRotation) * str.X, 
+                            //                                    Math.Sin(vm.FlatRotation) * (importedPage.Height - str.Y - (str.Height * 0.75)));
+
+                            Helpers.D.Log("{0}: X {1}, Y {2}",
+                                vm.Strings.IndexOf(str),
+                                str.localX,
+                                str.localY);
+
+                                //(int)(Math.Cos(vm.FlatRotation * (Math.PI / 180)) * str.X),
+                                //(int)(Math.Sin(vm.FlatRotation * (Math.PI / 180)) * (importedPage.Height - str.Y - (str.Height * 0.75))));
+
                             ColumnText.ShowTextAligned(pageStamp.GetOverContent(),
                                 iTextSharp.text.Element.ALIGN_LEFT,
                                 new iTextSharp.text.Phrase(str.String),
-                                (float)str.X,
-                                (float)(importedPage.Height - str.Y - (str.Height * 0.75)),
+                                (float)stringOffset.X,
+                                (float)stringOffset.Y,
                                 0);
                         }
                         // apply any added rotation
@@ -164,11 +188,11 @@ namespace PDFToolbox.IO
         private Models.Page CachePdfPageFromFile(FileIOInfo info, PdfReader reader, int pageNum)
         {
             Models.Page page = new Models.Page();
+            PdfNumber num = new PdfNumber(reader.GetPageRotation(pageNum));
             page.number = ++pageNum;
             page.fName = (info.IsTempPath ? info.FileName : info.FullFileName);
-            //FIXME: this is making the pages render with wrong rotation unless rotation is zero
-            //page.SetRotation((float)reader.GetPageRotation(pageNum));
-            page.originalRotation = new PdfNumber(reader.GetPageRotation(pageNum));
+            //page.originalRotation = new PdfNumber(reader.GetPageRotation(pageNum));
+            page.originalRotation = num.FloatValue;
 
             return page;
         }

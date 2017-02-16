@@ -330,10 +330,11 @@ namespace PDFToolbox
         {
             Point mouse;
             Point canvasOrigin;
+            Point canvasMouse;
             Canvas canvas;
             Common.UIString str;
             TextBlock txt;
-            FormattedText frmt;
+            FormattedText textSize;
 
             if (this.AddTextToggleButton != null && this.AddTextToggleButton.IsChecked==true)
             {
@@ -343,23 +344,35 @@ namespace PDFToolbox
                     canvas = sender as Canvas;
                     canvasOrigin = new Point((canvas.Width > this.PageEditItemsControl.ActualWidth) ? (0) : (this.PageEditItemsControl.ActualWidth / 2) - (canvas.Width / 2),
                                             (this.PageEditItemsControl.ActualHeight / 2) - (canvas.Height / 2));
-                    
+                    canvasMouse = new Point(Math.Abs(mouse.X - canvasOrigin.X), Math.Abs(mouse.Y - canvasOrigin.Y));
+
                     txt = new TextBlock();
                     str = new Common.UIString();
 
                     str.String = this.AddTextTextBox.Text;
 
-                    frmt = new FormattedText(str.String,
+                    textSize = new FormattedText(str.String,
                                             CultureInfo.CurrentUICulture,
                                             FlowDirection.LeftToRight,
                                             new Typeface(txt.FontFamily, txt.FontStyle, txt.FontWeight, txt.FontStretch),
                                             txt.FontSize,
                                             Brushes.Black);
-                    
-                    str.X = Math.Abs(mouse.X - canvasOrigin.X) - (frmt.Width / 2);
-                    str.Y = Math.Abs(mouse.Y - canvasOrigin.Y) - (frmt.Height / 2);
-                    str.Width = frmt.Width;
-                    str.Height = frmt.Height;
+
+                    str.X = canvasMouse.X - (textSize.Width / 2);
+                    str.Y = canvasMouse.Y - (textSize.Height / 2);
+                    //account for page rotation
+                    Helpers.D.Log("X {0}, Y {1} | O.X {2} O.Y {3}",
+                        str.X,
+                        str.Y,
+                        canvasOrigin.X,
+                        canvasOrigin.Y);
+
+                    str.localX = canvasOrigin.X - str.X;
+                    str.localY = canvasOrigin.Y - str.Y;
+                    //str.X = Math.Cos(_viewModel.SelectedPage.FlatRotation) * str.X;
+                    //str.Y = Math.Sin(_viewModel.SelectedPage.FlatRotation) * str.Y;
+                    str.Width = textSize.Width;
+                    str.Height = textSize.Height;
 
                     _viewModel.SelectedPage.Strings.Add(str);
 

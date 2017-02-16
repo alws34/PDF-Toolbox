@@ -21,9 +21,11 @@ namespace PDFToolbox.Models
         // Original pageDict number
         public int number { get; set; }
         // Rotation of pageDict (in degrees)
-        public PdfNumber rotation { get; set; }
+        //public PdfNumber rotation { get; set; }
+        public float rotation { get; set; }
         // Original rotation of pageDict (in degrees)
-        public PdfNumber originalRotation { get; set; }
+        //public PdfNumber originalRotation { get; set; }
+        public float originalRotation { get; set; }
         // True = image is ignored on PDF creation; False = image is used
         public bool isImagePreview { get; set; }
 
@@ -37,8 +39,8 @@ namespace PDFToolbox.Models
         public Page()
         {
             id = nextID++;
-            rotation = new PdfNumber(0f);
-            originalRotation = new PdfNumber(0f);
+            rotation = 0f; //new PdfNumber(0f);
+            originalRotation = 0f; //new PdfNumber(0f);
         }
 
         public void Copy(Page page)
@@ -64,9 +66,10 @@ namespace PDFToolbox.Models
             return p;
         }
 
+        [Obsolete]
         public void SetRotation(float rotation)
         {
-            this.rotation = new PdfNumber(rotation);
+            this.rotation = rotation; // new PdfNumber(rotation);
         }
     }
 }
