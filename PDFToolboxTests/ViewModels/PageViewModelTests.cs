@@ -17,7 +17,7 @@ namespace PDFToolbox.ViewModels.Tests
         {
             [TestMethod()]
             [ExpectedException(typeof(ArgumentNullException))]
-            public void NullPassedThrowsArgumentNullException()
+            public void NullPassed_ThrowsArgumentNullException()
             {
                 PageViewModel vm = new PageViewModel(null);
             }
@@ -28,7 +28,7 @@ namespace PDFToolbox.ViewModels.Tests
         {
             [TestMethod()]
             [ExpectedException(typeof(ArgumentNullException))]
-            public void NullPassedThrowsArgumentNullException()
+            public void NullPassed_ThrowsArgumentNullException()
             {
                 PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
                 vm.SetPage(null);
@@ -40,31 +40,51 @@ namespace PDFToolbox.ViewModels.Tests
         {
             [TestMethod()]
             [ExpectedException(typeof(ArgumentNullException))]
-            public void NullPassedToGenericViewModelThrowsArgumentNullException()
+            public void NullPassedToGenericViewModel_ThrowsArgumentNullException()
             {
                 PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
                 vm.Copy(null);
             }
             [TestMethod()]
             [ExpectedException(typeof(ArgumentNullException))]
-            public void NullPassedToEmptyViewModelThrowsArgumentNullException()
+            public void NullPassedToEmptyViewModel_ThrowsArgumentNullException()
             {
                 PageViewModel vm = PageViewModelTests.GenerateGenericBlankPageViewModel();
+
                 vm.Copy(null);
             }
             [TestMethod()]
-            public void GenericViewModelPassedToGenericViewModelEquates()
+            public void GenericViewModelPassedToGenericViewModel_ReturnsTrue()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericBlankPageViewModel();
-                vm.Copy(PageViewModelTests.GenerateGenericBlankPageViewModel());
-                //assert equality
+                PageViewModel vm1 = PageViewModelTests.GenerateGenericBlankPageViewModel();
+                PageViewModel vm2 = PageViewModelTests.GenerateGenericBlankPageViewModel();
+
+                vm1.Copy(vm2);
+
+                Assert.IsTrue(vm1.Equals(vm2));
             }
         }
 
-        [TestMethod()]
-        public void MakeCopyTest()
+        [TestClass()]
+        public class MakeCopyTest
         {
-            throw new NotImplementedException();
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentNullException))]
+            public void NullPassed_ThrowsArgumentNullException()
+            {
+                PageViewModel.MakeCopy(null);
+            }
+
+            [TestMethod()]
+            public void BlankPassedEquates_AssertsTrue()
+            {
+                PageViewModel vm1 = PageViewModelTests.GenerateGenericBlankPageViewModel();
+                PageViewModel vm2;
+
+                vm2 = PageViewModel.MakeCopy(vm1);
+
+                Assert.IsTrue(vm1.Equals(vm2));
+            }
         }
 
         [TestClass()]
@@ -88,10 +108,10 @@ namespace PDFToolbox.ViewModels.Tests
             [TestMethod()]
             public void GeneralEqualsGeneralReturnTrue()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
+                PageViewModel vm1 = PageViewModelTests.GenerateGenericPageViewModel();
                 PageViewModel vm2 = PageViewModelTests.GenerateGenericPageViewModel();
 
-                Assert.IsTrue(vm.Equals(vm2));
+                Assert.IsTrue(vm1.Equals(vm2));
             }
         }
 

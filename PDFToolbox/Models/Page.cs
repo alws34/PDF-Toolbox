@@ -80,8 +80,7 @@ namespace PDFToolbox.Models
                isImagePreview == p.isImagePreview &&
                number == p.number &&
                originalRotation == p.originalRotation &&
-               rotation == p.rotation &&
-               uiStrings == p.uiStrings)
+               rotation == p.rotation)
             {
                 return true;
             }

@@ -53,17 +53,27 @@ namespace PDFToolbox.ViewModels
             _page.uiStrings.CollectionChanged += OnStringsChanged;
         }
 
-        public void Copy(PageViewModel page)
+        public void Copy(PageViewModel vm)
         {
-            if (page == null) throw new ArgumentNullException("page");
+            if (vm == null) throw new ArgumentNullException("page");
 
-            this._page.Copy(page._page);
+            try
+            {
+                _page.Copy(vm._page);
+            }
+            catch(NullReferenceException e)
+            {
+                _page = null;
+            }
+
         }
         public static PageViewModel MakeCopy(PageViewModel page)
         {
-            PageViewModel p = new PageViewModel(new Models.Page());
+            if (page == null) throw new ArgumentNullException("PageViewModel page");
+            Models.Page p = Models.Page.MakeCopy(page._page);
+            PageViewModel vm = new PageViewModel(p);
 
-            p.Copy(page);
+            vm.Copy(page);
 
             return p;
         }
@@ -78,7 +88,7 @@ namespace PDFToolbox.ViewModels
             }
 
             vm = (PageViewModel)obj;
-            if (_page.Equals(vm._page) &&
+            if (((_page==null && vm._page==null) || _page.Equals(vm._page)) &&
                this.Scale == vm.Scale &&
                this.IsSelected == vm.IsSelected)
             {
