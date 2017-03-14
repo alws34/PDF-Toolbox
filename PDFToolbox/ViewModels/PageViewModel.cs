@@ -36,6 +36,8 @@ namespace PDFToolbox.ViewModels
 
         public PageViewModel(Models.Page page)
         {
+            if (page == null) throw new ArgumentNullException("page");
+
             SetPage(page);
         }
 
@@ -44,8 +46,8 @@ namespace PDFToolbox.ViewModels
         }
         public void SetPage(Models.Page page)
         {
-            if (page == null)
-                throw new ArgumentNullException("pageDict");
+            if (page == null) throw new ArgumentNullException("page");
+
             _page = page;
             _page.uiStrings = new ObservableCollection<Common.UIString>();
             _page.uiStrings.CollectionChanged += OnStringsChanged;
@@ -53,6 +55,8 @@ namespace PDFToolbox.ViewModels
 
         public void Copy(PageViewModel page)
         {
+            if (page == null) throw new ArgumentNullException("page");
+
             this._page.Copy(page._page);
         }
         public static PageViewModel MakeCopy(PageViewModel page)
@@ -62,6 +66,34 @@ namespace PDFToolbox.ViewModels
             p.Copy(page);
 
             return p;
+        }
+        
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            PageViewModel vm;
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            vm = (PageViewModel)obj;
+            if (_page.Equals(vm._page) &&
+               this.Scale == vm.Scale &&
+               this.IsSelected == vm.IsSelected)
+            {
+                return true;
+            }
+            
+            return base.Equals(obj);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
         public BitmapImage Image

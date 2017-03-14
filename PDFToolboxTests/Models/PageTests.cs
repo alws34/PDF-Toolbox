@@ -11,7 +11,7 @@ namespace PDFToolbox.Models.Tests
     [TestClass()]
     public class PageTests
     {
-        [TestMethod()]
+        /*[TestMethod()]
         public void PageTest()
         {
             Assert.Fail();
@@ -27,7 +27,7 @@ namespace PDFToolbox.Models.Tests
         public void MakeCopyTest()
         {
             Assert.Fail();
-        }
+        }*/
 
         protected Page GenerateTestPage1()
         {

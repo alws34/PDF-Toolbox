@@ -47,14 +47,14 @@ namespace PDFToolbox.Models
         {
             if (page == null) return;
 
-            this.image = page.image;
-            this.fName = page.fName;
-            this.number = page.number;
-            this.rotation = page.rotation;
-            this.originalRotation = page.originalRotation;
-            this.isImagePreview = page.isImagePreview;
-            this.imageStream = page.imageStream;
-            this.uiStrings = page.uiStrings;
+            image = page.image;
+            fName = page.fName;
+            number = page.number;
+            rotation = page.rotation;
+            originalRotation = page.originalRotation;
+            isImagePreview = page.isImagePreview;
+            imageStream = page.imageStream;
+            uiStrings = page.uiStrings;
         }
 
         public static Page MakeCopy(Page page)
@@ -64,6 +64,36 @@ namespace PDFToolbox.Models
             p.Copy(page);
 
             return p;
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            Page p;
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            p = (Page)obj;
+            if (fName == p.fName &&
+               image == p.image &&
+               isImagePreview == p.isImagePreview &&
+               number == p.number &&
+               originalRotation == p.originalRotation &&
+               rotation == p.rotation &&
+               uiStrings == p.uiStrings)
+            {
+                return true;
+            }
+            return base.Equals(obj);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
         [Obsolete]
