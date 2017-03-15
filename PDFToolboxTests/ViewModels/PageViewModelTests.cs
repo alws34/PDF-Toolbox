@@ -60,8 +60,8 @@ namespace PDFToolbox.ViewModels.Tests
                 PageViewModel vm2 = PageViewModelTests.GenerateGenericBlankPageViewModel();
 
                 vm1.Copy(vm2);
-
-                Assert.IsTrue(vm1.Equals(vm2));
+                
+                Assert.AreEqual(vm1, vm2);
             }
         }
 
@@ -84,6 +84,7 @@ namespace PDFToolbox.ViewModels.Tests
                 vm2 = PageViewModel.MakeCopy(vm1);
 
                 Assert.IsTrue(vm1.Equals(vm2));
+                //Assert.AreEqual(vm1, vm2);
             }
         }
 
@@ -91,14 +92,14 @@ namespace PDFToolbox.ViewModels.Tests
         public class EqualsTest
         {
             [TestMethod()]
-            public void NullEqualsGeneralReturnFalse()
+            public void NullEqualsGeneral_ReturnFalse()
             {
                 PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
 
                 Assert.IsFalse(vm.Equals(null));
             }
             [TestMethod()]
-            public void EmptyEqualsGeneralReturnFalse()
+            public void EmptyEqualsGeneral_ReturnFalse()
             {
                 PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
                 PageViewModel emptyVM = PageViewModelTests.GenerateGenericBlankPageViewModel();
@@ -106,7 +107,7 @@ namespace PDFToolbox.ViewModels.Tests
                 Assert.IsFalse(vm.Equals(emptyVM));
             }
             [TestMethod()]
-            public void GeneralEqualsGeneralReturnTrue()
+            public void GeneralEqualsGeneral_ReturnTrue()
             {
                 PageViewModel vm1 = PageViewModelTests.GenerateGenericPageViewModel();
                 PageViewModel vm2 = PageViewModelTests.GenerateGenericPageViewModel();

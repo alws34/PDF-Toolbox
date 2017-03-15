@@ -75,7 +75,7 @@ namespace PDFToolbox.ViewModels
 
             vm.Copy(page);
 
-            return p;
+            return vm;
         }
         
         // override object.Equals

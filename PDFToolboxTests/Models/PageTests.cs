@@ -36,13 +36,27 @@ namespace PDFToolbox.Models.Tests
         public void CopyTest()
         {
             Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void MakeCopyTest()
-        {
-            Assert.Fail();
         }*/
+
+        [TestClass()]
+        public class MakeCopyTest
+        {
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentNullException))]
+            public void NullPassed_ThrowsArgumentNullException()
+            {
+                Page.MakeCopy(null);
+            }
+
+            [TestMethod()]
+            public void BlankPassedEquals_ReturnsTrue()
+            {
+                Page p1 = new Page();
+                Page p2 = Page.MakeCopy(p1);
+
+                Assert.AreEqual(p1, p2);
+            }
+        }
 
         protected Page GenerateTestPage1()
         {

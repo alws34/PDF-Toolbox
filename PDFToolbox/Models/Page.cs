@@ -59,6 +59,8 @@ namespace PDFToolbox.Models
 
         public static Page MakeCopy(Page page)
         {
+            if (page == null) throw new ArgumentNullException("Page page");
+
             Page p = new Page();
 
             p.Copy(page);
