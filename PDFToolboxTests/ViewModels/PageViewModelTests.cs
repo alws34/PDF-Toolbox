@@ -30,8 +30,19 @@ namespace PDFToolbox.ViewModels.Tests
             [ExpectedException(typeof(ArgumentNullException))]
             public void NullPassed_ThrowsArgumentNullException()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
+                PageViewModel vm = GenerateGenericPageViewModel();
                 vm.SetPage(null);
+            }
+            [TestMethod()]
+            public void BlankPassedEquates_ReturnsTrue()
+            {
+                PageViewModel vm = GenerateGenericBlankPageViewModel();
+                Models.Page p = GenerateBasicPage();
+
+                vm.SetPage(p);
+
+                //FYI PageViewModel.DocName returns Page.fName
+                Assert.AreEqual(vm.DocName, p.fName);
             }
         }
 
@@ -42,22 +53,22 @@ namespace PDFToolbox.ViewModels.Tests
             [ExpectedException(typeof(ArgumentNullException))]
             public void NullPassedToGenericViewModel_ThrowsArgumentNullException()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
+                PageViewModel vm = GenerateGenericPageViewModel();
                 vm.Copy(null);
             }
             [TestMethod()]
             [ExpectedException(typeof(ArgumentNullException))]
             public void NullPassedToEmptyViewModel_ThrowsArgumentNullException()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericBlankPageViewModel();
+                PageViewModel vm = GenerateGenericBlankPageViewModel();
 
                 vm.Copy(null);
             }
             [TestMethod()]
             public void GenericViewModelPassedToGenericViewModel_ReturnsTrue()
             {
-                PageViewModel vm1 = PageViewModelTests.GenerateGenericBlankPageViewModel();
-                PageViewModel vm2 = PageViewModelTests.GenerateGenericBlankPageViewModel();
+                PageViewModel vm1 = GenerateGenericBlankPageViewModel();
+                PageViewModel vm2 = GenerateGenericBlankPageViewModel();
 
                 vm1.Copy(vm2);
                 
@@ -78,13 +89,23 @@ namespace PDFToolbox.ViewModels.Tests
             [TestMethod()]
             public void BlankPassedEquates_AssertsTrue()
             {
-                PageViewModel vm1 = PageViewModelTests.GenerateGenericBlankPageViewModel();
+                PageViewModel vm1 = GenerateGenericBlankPageViewModel();
+                PageViewModel vm2;
+
+                vm2 = PageViewModel.MakeCopy(vm1);
+                
+                Assert.AreEqual(vm1, vm2);
+            }
+
+            [TestMethod()]
+            public void GenericPassedEquates_AssertsTrue()
+            {
+                PageViewModel vm1 = GenerateGenericPageViewModel();
                 PageViewModel vm2;
 
                 vm2 = PageViewModel.MakeCopy(vm1);
 
-                Assert.IsTrue(vm1.Equals(vm2));
-                //Assert.AreEqual(vm1, vm2);
+                Assert.AreEqual(vm1, vm2);
             }
         }
 
@@ -94,23 +115,23 @@ namespace PDFToolbox.ViewModels.Tests
             [TestMethod()]
             public void NullEqualsGeneral_ReturnFalse()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
+                PageViewModel vm = GenerateGenericPageViewModel();
 
                 Assert.IsFalse(vm.Equals(null));
             }
             [TestMethod()]
             public void EmptyEqualsGeneral_ReturnFalse()
             {
-                PageViewModel vm = PageViewModelTests.GenerateGenericPageViewModel();
-                PageViewModel emptyVM = PageViewModelTests.GenerateGenericBlankPageViewModel();
+                PageViewModel vm = GenerateGenericPageViewModel();
+                PageViewModel emptyVM = GenerateGenericBlankPageViewModel();
 
                 Assert.IsFalse(vm.Equals(emptyVM));
             }
             [TestMethod()]
             public void GeneralEqualsGeneral_ReturnTrue()
             {
-                PageViewModel vm1 = PageViewModelTests.GenerateGenericPageViewModel();
-                PageViewModel vm2 = PageViewModelTests.GenerateGenericPageViewModel();
+                PageViewModel vm1 = GenerateGenericPageViewModel();
+                PageViewModel vm2 = GenerateGenericPageViewModel();
 
                 Assert.IsTrue(vm1.Equals(vm2));
             }
@@ -121,6 +142,12 @@ namespace PDFToolbox.ViewModels.Tests
         protected static Models.Page GenerateGenericPage()
         {
             return new Models.Page();
+        }
+        protected static Models.Page GenerateBasicPage()
+        {
+            Models.Page p = new Models.Page();
+            p.fName = "\\\\test\\path";
+            return p;
         }
 
         protected static PageViewModel GenerateGenericPageViewModel()

@@ -45,7 +45,7 @@ namespace PDFToolbox.Models
 
         public void Copy(Page page)
         {
-            if (page == null) return;
+            if (page == null) throw new ArgumentNullException("Page page");
 
             image = page.image;
             fName = page.fName;

@@ -12,7 +12,7 @@ namespace PDFToolbox.Models.Tests
     public class PageTests
     {
         [TestClass()]
-        public class EqualsTest
+        public class EqualsTests
         {
             [TestMethod()]
             public void NullEqualsGeneral_ReturnFalse()
@@ -31,15 +31,42 @@ namespace PDFToolbox.Models.Tests
             }
         }
 
-        /*
-        [TestMethod()]
-        public void CopyTest()
+        
+        [TestClass()]
+        public class CopyTests
         {
-            Assert.Fail();
-        }*/
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentNullException))]
+            public void NullPassed_ThrowsArgumentNullException()
+            {
+                Page p = new Page();
+
+                p.Copy(null);
+            }
+            [TestMethod()]
+            public void BlankPassedEquates_ReturnsTrue()
+            {
+                Page p1 = new Page();
+                Page p2 = new Page();
+
+                p1.Copy(p2);
+
+                Assert.AreEqual(p1, p2);
+            }
+            [TestMethod()]
+            public void BasicPassedEquates_ReturnsTrue()
+            {
+                Page p1 = new Page();
+                Page p2 = GenerateBasicPage1();
+
+                p1.Copy(p2);
+
+                Assert.AreEqual(p1, p2);
+            }
+        }
 
         [TestClass()]
-        public class MakeCopyTest
+        public class MakeCopyTests
         {
             [TestMethod()]
             [ExpectedException(typeof(ArgumentNullException))]
@@ -56,18 +83,27 @@ namespace PDFToolbox.Models.Tests
 
                 Assert.AreEqual(p1, p2);
             }
+            [TestMethod()]
+            public void BasicPassedEquals_ReturnsTrue()
+            {
+                Page p1 = GenerateBasicPage1();
+                Page p2 = Page.MakeCopy(p1);
+
+                Assert.AreEqual(p1, p2);
+            }
         }
 
-        protected Page GenerateTestPage1()
+        #region Helper Methods
+
+        protected static Page GenerateBasicPage1()
         {
             Page p = new Page();
 
-            p.image = new BitmapImage();
-            p.imageStream.Write(new byte[] { 32, 32, 32, 32, 32 }, 0, 5);
-            p.rotation = 0f;
+            p.fName = "\\\\test\\path";
 
             return p;
         }
-        
+        #endregion
+
     }
 }

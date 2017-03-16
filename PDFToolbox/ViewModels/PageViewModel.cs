@@ -57,21 +57,26 @@ namespace PDFToolbox.ViewModels
         {
             if (vm == null) throw new ArgumentNullException("page");
 
-            try
-            {
-                _page.Copy(vm._page);
-            }
-            catch(NullReferenceException e)
+            if (vm._page == null)
             {
                 _page = null;
+                return;
             }
+
+            if (_page==null)
+            {
+                _page = new Models.Page();
+            }
+
+            _page.Copy(vm._page);
+            // or...?: _page = Models.Page.MakeCopy(vm._page);
 
         }
         public static PageViewModel MakeCopy(PageViewModel page)
         {
             if (page == null) throw new ArgumentNullException("PageViewModel page");
-            Models.Page p = Models.Page.MakeCopy(page._page);
-            PageViewModel vm = new PageViewModel(p);
+
+            PageViewModel vm = new PageViewModel();
 
             vm.Copy(page);
 
