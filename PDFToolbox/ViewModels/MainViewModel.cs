@@ -511,9 +511,12 @@ namespace PDFToolbox.ViewModels
                 {
                     newDoc = new Models.Document();
 
-                    newDoc.fName = docVM.DocName;
-                    //newDoc.Rename("-" + (++docCount), true);
-                    newDoc.Rename("." + (++docCount) + "-" + (newDoc.id), true);
+                    //newDoc.fName = docVM.DocName;
+                    //newDoc.Rename("." + (++docCount) + "-" + (newDoc.id), true);
+
+                    //newDoc.fName = docVM.DocName + ("." + (++docCount) + "-" + (newDoc.id)); // or...
+                    newDoc.Rename(docVM.DocName + ("." + (++docCount) + "-" + (newDoc.id)));
+
                     newDoc.image = docVM.Pages[0].Image;
 
                     newDocVM = new DocumentViewModel(newDoc);
