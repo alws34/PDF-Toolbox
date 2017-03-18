@@ -10,11 +10,14 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.IO;
 
+using PDFToolbox.Common.ViewModels;
+
 
 namespace PDFToolbox.ViewModels
 {
-    class MainViewModel : Common.ViewModels.ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
+        #region Boilerplate
         #region Event declarations
         private ICommand _addDoc = null;
         public ICommand AddDoc
@@ -88,7 +91,7 @@ namespace PDFToolbox.ViewModels
             get { return _keyDeletePressed; }
         }
         #endregion
-
+        
         #region Properties
         private ObservableCollection<DocumentViewModel> _docs = new ObservableCollection<DocumentViewModel>();
         public ObservableCollection<DocumentViewModel> Documents
@@ -121,21 +124,9 @@ namespace PDFToolbox.ViewModels
         private PageViewModel _selectedPage = null;
         public PageViewModel SelectedPage
         {
-            //get { return (SelectedPages==null ? null : SelectedPages[0]); }
             get { return _selectedPage; }
             set
             {
-                /*
-                if (SelectedPages != null)
-                {
-                    if (SelectedPages.Count == 0)
-                        SelectedPages.Add(null);
-
-                    SelectedPages[0] = value;
-
-                    OnPropertyChanged("SelectedPage");
-                }*/
-                
                 _selectedPage = value;
                 OnPropertyChanged("SelectedPage");
                 HaveSelectedPage = (_selectedPage != null);
@@ -246,6 +237,7 @@ namespace PDFToolbox.ViewModels
         }
 
         #endregion
+        #endregion
 
         public readonly string[] SUPPORTED_FILE_TYPES = { ".PDF" };
 
@@ -287,8 +279,7 @@ namespace PDFToolbox.ViewModels
             if (!HaveSelectedDoc)
                 return;
 
-            IO.FileIO.SaveDocument(SelectedDocument);
-            //SelectedDocument.Save();
+            SaveDocument(SelectedDocument);
         }
 
         private void OnSaveAllDocs(object param)
@@ -298,10 +289,8 @@ namespace PDFToolbox.ViewModels
 
             for (int i = 0; i < Documents.Count; i++)
             {
-                IO.FileIO.SaveDocument(Documents[i]);
+                SaveDocument(Documents[i]);
             }
-            //IO.FileIO.SaveDocument(SelectedDocument);
-            //SelectedDocument.Save();
         }
 
         private void OnRotatePageCW90(object param)
@@ -580,6 +569,11 @@ namespace PDFToolbox.ViewModels
             }
 
             docVM.DocName = newDocName;
+        }
+
+        protected void SaveDocument(DocumentViewModel doc)
+        {
+            IO.FileIO.SaveDocument(doc);
         }
         
         #endregion
