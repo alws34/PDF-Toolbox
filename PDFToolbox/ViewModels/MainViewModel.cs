@@ -409,7 +409,7 @@ namespace PDFToolbox.ViewModels
         }
         #endregion
 
-        #region Adding new documents/pages
+        #region Adding new pages
         public void CachePages(Models.Document[] documents)
         {
             // Exit now if nothing loaded
@@ -432,6 +432,16 @@ namespace PDFToolbox.ViewModels
             }
         }
 
+        public void AddPage(DocumentViewModel document, PageViewModel page)
+        {
+            if (document == null) throw new ArgumentNullException("Document document");
+            if (page == null) throw new ArgumentNullException("PageViewModle page");
+
+            document.Pages.Add(page);
+        }
+
+        #endregion
+        #region Adding new Documents
         public void CacheDocuments(Models.Document[] documents)
         {
             if (documents == null || documents.Length == 0) return;

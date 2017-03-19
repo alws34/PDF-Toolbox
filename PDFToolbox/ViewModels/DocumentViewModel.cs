@@ -64,6 +64,14 @@ namespace PDFToolbox.ViewModels
         #endregion
 
         #region Utils
+
+        public void AddPage(PageViewModel page)
+        {
+            if (page == null) throw new ArgumentNullException("PageViewModel page");
+
+            Pages.Add(page);
+        }
+
         private void OnPagesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // Notify that Count may have been changed
@@ -79,11 +87,7 @@ namespace PDFToolbox.ViewModels
         {
             return Pages.IndexOf(Pages.Where(p => p.ID == page.ID).FirstOrDefault());
         }
-
-        /*public void Save()
-        {
-            Toolbox.SaveDocument(_doc.fName, Pages);
-        }*/
+        
         #endregion
     }
 }
