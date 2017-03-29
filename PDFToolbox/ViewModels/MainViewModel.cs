@@ -437,7 +437,7 @@ namespace PDFToolbox.ViewModels
             if (document == null) throw new ArgumentNullException("Document document");
             if (page == null) throw new ArgumentNullException("PageViewModle page");
 
-            document.Pages.Add(page);
+            document.AddPage(page);
         }
 
         #endregion

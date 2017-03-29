@@ -49,7 +49,7 @@ namespace PDFToolbox.IO
 
             for (int i = 0; i < reader.NumberOfPages; i++)
             {
-                page = CachePdfPageFromFile(info, reader, i);
+                page = CachePdfPageFromFile(info, reader, i+1);
                 page.image = pageImages[i];
                 
                 doc.pages.Add(new ViewModels.PageViewModel(page));
@@ -108,8 +108,8 @@ namespace PDFToolbox.IO
                     if (Path.GetExtension(srcDocPath).ToUpperInvariant() == ".PDF")
                     {
                         srcReader = new iTextSharp.text.pdf.PdfReader(srcDocPath);
-                        pageDict = srcReader.GetPageN(vm.Number);
-                        importedPage = targetPdf.GetImportedPage(srcReader, vm.Number);
+                        pageDict = srcReader.GetPageN(vm.Number-1);
+                        importedPage = targetPdf.GetImportedPage(srcReader, vm.Number-1);
                         pageStamp = targetPdf.CreatePageStamp(importedPage);
                         //pageOrigin = new System.Windows.Point(Math.Cos(pageRotationInRads - (90f * (float)(Math.PI / 180))) * importedPage.Width,
                         //                                      Math.Sin(pageRotationInRads - (180f * (float)(Math.PI / 180))) * importedPage.Height);
@@ -122,17 +122,7 @@ namespace PDFToolbox.IO
                             // account for page rotation
                             stringOffset = new System.Windows.Point(Math.Cos(pageRotationInRads) * str.X,
                                                                     Math.Sin(pageRotationInRads) * str.Y);
-                            //Math.Cos(vm.FlatRotation) * str.X, 
-                            //                                    Math.Sin(vm.FlatRotation) * (importedPage.Height - str.Y - (str.Height * 0.75)));
-
-                            Helpers.D.Log("{0}: X {1}, Y {2}",
-                                vm.Strings.IndexOf(str),
-                                str.localX,
-                                str.localY);
-
-                                //(int)(Math.Cos(vm.FlatRotation * (Math.PI / 180)) * str.X),
-                                //(int)(Math.Sin(vm.FlatRotation * (Math.PI / 180)) * (importedPage.Height - str.Y - (str.Height * 0.75))));
-
+                            
                             ColumnText.ShowTextAligned(pageStamp.GetOverContent(),
                                 iTextSharp.text.Element.ALIGN_LEFT,
                                 new iTextSharp.text.Phrase(str.String),

@@ -88,13 +88,10 @@ namespace PDFToolbox.Models
             }
             return base.Equals(obj);
         }
-
-        // override object.GetHashCode
+        
         public override int GetHashCode()
         {
-            // TODO: write your implementation of GetHashCode() here
-            throw new NotImplementedException();
-            return base.GetHashCode();
+            return id;
         }
 
         [Obsolete]

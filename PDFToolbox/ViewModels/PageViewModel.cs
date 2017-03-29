@@ -102,13 +102,10 @@ namespace PDFToolbox.ViewModels
             
             return base.Equals(obj);
         }
-
-        // override object.GetHashCode
+        
         public override int GetHashCode()
         {
-            // TODO: write your implementation of GetHashCode() here
-            throw new NotImplementedException();
-            return base.GetHashCode();
+            return _page.GetHashCode();
         }
 
         public BitmapImage Image
@@ -203,7 +200,7 @@ namespace PDFToolbox.ViewModels
         public void OnStringsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // Notify that Count may have been changed
-            OnPropertyChanged("StringsCount");
+            OnPropertyChanged("Strings");
 
 
         }
