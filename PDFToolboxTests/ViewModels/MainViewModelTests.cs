@@ -48,19 +48,106 @@ namespace PDFToolbox.ViewModels.Tests
                 m.AddPage(null, p);
             }
             [TestMethod()]
-            public void BlankBlankPassed_ThrowsArgumentNullException()
+            public void BlankBlankPassedEquals_ReturnTrue()
             {
                 MainViewModel m = GenerateBlankMainViewModel();
+                DocumentViewModel d = GenerateBlankDocumentViewModel();
                 PageViewModel p = GenerateBlankPageViewModel();
 
-                m.AddPage(null, p);
+                m.AddPage(d, p);
+
+                Assert.AreEqual(p, d.Pages[0]);
             }
         }
 
-        [TestMethod()]
-        public void CacheDocumentsTests()
+        [TestClass()]
+        public class CacheDocumentsTests
         {
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentNullException))]
+            public void NullPassed_ThrowsArgumentNullException()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
 
+                m.CacheDocuments(null);
+            }
+
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentException))]
+            public void ZeroLenArrayPassed_ThrowsArgumentNullException()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateZeroLengthDocumentArray();
+
+                m.CacheDocuments(a);
+            }
+            [TestMethod()]
+            public void DocumentsArrayFilledWithNullsPassed_DocumentsCountEqualsZero_ReturnsTrue()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateFiveLengthDocumentArrayFilledWithNulls();
+
+                m.CacheDocuments(a);
+
+                Assert.IsTrue(m.Documents.Count == 0);
+            }
+            [TestMethod()]
+            public void DocumentsArrayPopulatedTwoDocumentsAndRestNullsPassed_DocumentsCountEqualsTwo_ReturnsTrue()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateFiveLengthDocumentArrayFilledWithNulls();
+                a[1] = new Models.Document();
+                a[3] = new Models.Document();
+
+                m.CacheDocuments(a);
+
+                Assert.IsTrue(m.Documents.Count == 2);
+            }
+        }
+        
+        [TestClass()]
+        public class AddDocumentsTests
+        {
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentNullException))]
+            public void NullPassed_ThrowsArgumentNullException()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+
+                m.AddDocuments(null);
+            }
+
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentException))]
+            public void ZeroLenArrayPassed_ThrowsArgumentNullException()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateZeroLengthDocumentArray();
+
+                m.AddDocuments(a);
+            }
+            [TestMethod()]
+            public void DocumentsArrayFilledWithNullsPassed_DocumentsCountEqualsZero_ReturnsTrue()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateFiveLengthDocumentArrayFilledWithNulls();
+
+                m.AddDocuments(a);
+
+                Assert.IsTrue(m.Documents.Count == 0);
+            }
+            [TestMethod()]
+            public void DocumentsArrayPopulatedTwoDocumentsAndRestNullsPassed_DocumentsCountEqualsTwo_ReturnsTrue()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateFiveLengthDocumentArrayFilledWithNulls();
+                a[1] = new Models.Document();
+                a[3] = new Models.Document();
+
+                m.AddDocuments(a);
+
+                Assert.IsTrue(m.Documents.Count == 2);
+            }
         }
 
         [TestMethod()]
@@ -111,6 +198,18 @@ namespace PDFToolbox.ViewModels.Tests
         public static PageViewModel GenerateBlankPageViewModel()
         {
             return new PageViewModel(new Models.Page());
+        }
+
+        public static Models.Document[] GenerateZeroLengthDocumentArray()
+        {
+            return new Models.Document[0];
+        }
+
+        public static Models.Document[] GenerateFiveLengthDocumentArrayFilledWithNulls()
+        {
+            return new Models.Document[5];
+
+            
         }
     }
 }

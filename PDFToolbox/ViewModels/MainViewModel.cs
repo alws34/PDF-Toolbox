@@ -442,17 +442,34 @@ namespace PDFToolbox.ViewModels
 
         #endregion
         #region Adding new Documents
+        [Obsolete("Use 'MainViewModel.AddDocuments' instead")]
         public void CacheDocuments(Models.Document[] documents)
         {
-            if (documents == null || documents.Length == 0) return;
+            AddDocuments(documents);
+        }
 
-            DocumentViewModel docVM;
+        public void AddDocuments(Models.Document[] documents)
+        {
+            if (documents == null) throw new ArgumentNullException("Models.Document[] documents");
+            if (documents.Length == 0) throw new ArgumentException("Array length is zero. Array needs at least one element.", "Models.Document[] documents");
+
             foreach (Models.Document doc in documents)
             {
-                docVM = new DocumentViewModel(doc);
-                Documents.Add(docVM);
-                SelectedDocument = docVM;
+                if (doc == null) continue;
+
+                AddDocument(doc);
             }
+        }
+
+        public void AddDocument(Models.Document document)
+        {
+            if (document == null) throw new ArgumentNullException("Models.Document documents");
+
+            DocumentViewModel docVM;
+
+            docVM = new DocumentViewModel(document);
+            Documents.Add(docVM);
+            SelectedDocument = docVM;
         }
         #endregion
 
