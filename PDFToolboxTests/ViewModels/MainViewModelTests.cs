@@ -137,12 +137,22 @@ namespace PDFToolbox.ViewModels.Tests
                 Assert.IsTrue(m.Documents.Count == 0);
             }
             [TestMethod()]
+            public void DocumentsArrayPopulatedOneDocumentPassed_DocumentsCountEqualsOne_ReturnsTrue()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document[] a = GenerateOneLengthDocumentArrayFilledWithBlanks();
+
+                m.AddDocuments(a);
+
+                Assert.IsTrue(m.Documents.Count == 1);
+            }
+            [TestMethod()]
             public void DocumentsArrayPopulatedTwoDocumentsAndRestNullsPassed_DocumentsCountEqualsTwo_ReturnsTrue()
             {
                 MainViewModel m = GenerateBlankMainViewModel();
                 Models.Document[] a = GenerateFiveLengthDocumentArrayFilledWithNulls();
-                a[1] = new Models.Document();
-                a[3] = new Models.Document();
+                a[1] = GenerateBlankDocumentModel();
+                a[3] = GenerateBlankDocumentModel();
 
                 m.AddDocuments(a);
 
@@ -150,7 +160,30 @@ namespace PDFToolbox.ViewModels.Tests
             }
         }
 
-        [TestMethod()]
+        [TestClass()]
+        public class AddDocumentTests
+        {
+            [TestMethod()]
+            [ExpectedException(typeof(ArgumentNullException))]
+            public void NullPassed_ThrowsArgumentNullException()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+
+                m.AddDocument(null);
+            }
+
+            [TestMethod()]
+            public void BlankPassed_ThrowsArgumentNullException()
+            {
+                MainViewModel m = GenerateBlankMainViewModel();
+                Models.Document d = GenerateBlankDocumentModel();
+
+                m.AddDocument(d);
+
+                Assert.IsTrue(m.Documents.Count == 1);
+            }
+        }
+            [TestMethod()]
         public void CopyDocumentToTests()
         {
 
@@ -195,6 +228,10 @@ namespace PDFToolbox.ViewModels.Tests
         {
             return new DocumentViewModel(new Models.Document());
         }
+        public static Models.Document GenerateBlankDocumentModel()
+        {
+            return new Models.Document();
+        }
         public static PageViewModel GenerateBlankPageViewModel()
         {
             return new PageViewModel(new Models.Page());
@@ -204,12 +241,17 @@ namespace PDFToolbox.ViewModels.Tests
         {
             return new Models.Document[0];
         }
-
         public static Models.Document[] GenerateFiveLengthDocumentArrayFilledWithNulls()
         {
             return new Models.Document[5];
+        }
+        public static Models.Document[] GenerateOneLengthDocumentArrayFilledWithBlanks()
+        {
+            Models.Document[] d = new Models.Document[1];
 
-            
+            d[0] = new Models.Document();
+
+            return d;
         }
     }
 }

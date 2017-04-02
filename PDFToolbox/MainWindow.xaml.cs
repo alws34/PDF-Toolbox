@@ -126,7 +126,7 @@ namespace PDFToolbox
                     // If CTRL key is down -> copy pages to targetPdf doc
                     if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey))
                     {
-                        _viewModel.CopyDocumentTo(draggedDoc, targetDoc);
+                        targetDoc.AddPages(draggedDoc.Pages.ToArray());
                         return;
                     }
                     else // CTRL not down -> move docs

@@ -474,15 +474,7 @@ namespace PDFToolbox.ViewModels
         #endregion
 
         #region Rearranging docs/pages
-        public void CopyDocumentTo(ViewModels.DocumentViewModel source, ViewModels.DocumentViewModel target)
-        {
-            if (source == null || target == null) return;
-
-            foreach (ViewModels.PageViewModel page in source.Pages)
-            {
-                target.Pages.Add(PageViewModel.MakeCopy(page));
-            }
-        }
+        
 
         public void MovePage(int oldIndex, int newIndex)
         {
@@ -507,18 +499,15 @@ namespace PDFToolbox.ViewModels
             newDoc.Pages.Add(page);
         }
 
-        public void SplitDocument(ViewModels.DocumentViewModel docVM, int splitInterval)
+        public void SplitDocument(DocumentViewModel docVM, int splitInterval)
         {
-            ViewModels.DocumentViewModel newDocVM;
+            DocumentViewModel newDocVM;
             Models.Document newDoc;
             int docCount = 0;
 
             if (docVM == null || splitInterval <= 0) return;
 
             newDocVM = docVM;
-
-            //newDoc = new Models.Document();
-            //newDocVM = new DocumentViewModel(newDoc);
 
             while (docVM.PageCount> splitInterval)
             {
@@ -527,10 +516,7 @@ namespace PDFToolbox.ViewModels
                 {
                     newDoc = new Models.Document();
 
-                    //newDoc.fName = docVM.DocName;
-                    //newDoc.Rename("." + (++docCount) + "-" + (newDoc.id), true);
-
-                    //newDoc.fName = docVM.DocName + ("." + (++docCount) + "-" + (newDoc.id)); // or...
+                    
                     newDoc.Rename(docVM.DocName + ("." + (++docCount) + "-" + (newDoc.id)));
 
                     newDoc.image = docVM.Pages[0].Image;

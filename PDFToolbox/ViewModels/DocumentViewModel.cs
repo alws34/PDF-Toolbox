@@ -71,6 +71,18 @@ namespace PDFToolbox.ViewModels
 
             Pages.Add(page);
         }
+        public void AddPages(PageViewModel[] pages)
+        {
+            if (pages == null) throw new ArgumentNullException("PageViewModel page");
+            if (pages.Length == 0) throw new ArgumentException("Array param length is zero.", "PageViewModel[] pages");
+
+            foreach (PageViewModel p in pages)
+            {
+                if (p == null) continue;
+
+                Pages.Add(p);
+            }
+        }
 
         private void OnPagesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
