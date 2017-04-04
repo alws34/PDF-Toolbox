@@ -178,9 +178,11 @@
     </Compile>
     <Compile Include="Helpers\DragDropHandler.cs" />
     <Compile Include="IO\FileIO.cs" />
+    <Compile Include="IO\FileIOLoader.cs" />
     <Compile Include="IO\ImagesFileIO.cs" />
     <Compile Include="IO\OutlookAttachmentExtractor.cs" />
     <Compile Include="IO\PdfFileIO.cs" />
+    <Compile Include="PDFToolboxIOLoader.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="PDF\BasePdfConvert.cs" />

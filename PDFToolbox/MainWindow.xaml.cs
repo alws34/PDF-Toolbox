@@ -30,7 +30,7 @@ namespace PDFToolbox
         private ViewModels.MainViewModel _viewModel;
         private Helpers.DragDropHandler.Data _docsDropData = new Helpers.DragDropHandler.Data();
         private Helpers.DragDropHandler.Data _pagesDropData = new Helpers.DragDropHandler.Data();
-        private Adorners.PageViewFileDropAdorner _pageViewAdornerLayer;
+        //private Adorners.PageViewFileDropAdorner _pageViewAdornerLayer;
         
         public MainWindow()
         {
@@ -42,19 +42,11 @@ namespace PDFToolbox
 
             Toolbox.MainWindow = this;
             
-            _pageViewAdornerLayer = new Adorners.PageViewFileDropAdorner(lbxPages);
+            //_pageViewAdornerLayer = new Adorners.PageViewFileDropAdorner(lbxPages);
             _viewModel = (ViewModels.MainViewModel)this.DataContext;
             Toolbox.WireSelectNameOnFocus(tbxDocumentName);
 
             Toolbox.CreateLocalSaveDir();
-
-            // Register Extractors (pre-loaders)
-            FileIO.RegisterStrategy(new OutlookAttachmentExtractor());
-            FileIO.RegisterStrategy(new FileDropExtractor());
-            // Register normal 
-            FileIO.RegisterStrategy(new PdfFileIO());
-            //FileIO.RegisterStrategy(new ImagesFileIO());
-
         }
 
         private void lbxPages_Drop(object sender, DragEventArgs e)
