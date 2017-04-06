@@ -93,15 +93,13 @@
                         </ListBox.Resources>
                     </ListBox>
                     <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="#FF6491B6"/>
-                    <ListBox Name="lbxPages" ItemsSource="{Binding SelectedDocument.Pages}" ItemTemplate="{Binding localVMs:PageViewModel}" Background="#FFAFDBFF" 
+                    <localViews:PagesView Grid.Column="2" Document="{Binding SelectedDocument}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
+                    <!--ListBox Name="lbxPages" ItemsSource="{Binding SelectedDocument.Pages}" ItemTemplate="{Binding localVMs:PageViewModel}" Background="#FFAFDBFF" 
                              SelectedItem="{Binding SelectedPage, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" SelectionMode="Extended"
                              AllowDrop="True" Drop="lbxPages_Drop" DragEnter="lbxPages_DragEnter"
                              PreviewMouseLeftButtonDown="lbxPages_PreviewMouseLeftButtonDown" PreviewMouseMove="lbxPages_PreviewMouseMove">
                         <ListBox.Resources>
 
-                            <!--DataTemplate DataType="{x:Type localVMs:PageViewModel}">
-                                <localViews:PageView PdfPage="{Binding RelativeSource={RelativeSource AncestorType={x:Type localVMs:PageViewModel}}}" />
-                            </-->
                             <DataTemplate DataType="{x:Type localVMs:PageViewModel}">
                                 <Grid Margin="10" RenderTransformOrigin="0.5, 0.5" >
                                     <Grid.LayoutTransform>
@@ -122,13 +120,13 @@
                                 <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
-                        <!--ListBox.ItemContainerStyle>
+                        <!- -ListBox.ItemContainerStyle>
                             <Style x:Name="DefaultPdfPageStyle"/>
                             <!-Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                 <EventSetter Event="MouseDoubleClick" Handler="lbiPage_MouseDoubleClick"/>
                             </Style->
-                        </ListBox.ItemContainerStyle-->
-                    </ListBox>
+                        </ListBox.ItemContainerStyle- ->
+                    </ListBox-->
                 </Grid>
                 <Popup x:Name="InputBox" IsOpen="False" Visibility="Collapsed" PlacementTarget="{Binding ElementName=SplitButton}" Placement="Center" >
                 <Grid x:Name="InputBoxGrid" Visibility="Visible">

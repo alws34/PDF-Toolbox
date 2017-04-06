@@ -35,9 +35,7 @@ namespace PDFToolbox
         public MainWindow()
         {
             InitializeComponent();
-
-
-
+            
             Title = Toolbox.Info.APP_CAPTION;
 
             Toolbox.MainWindow = this;
@@ -146,7 +144,7 @@ namespace PDFToolbox
 
             if (dropFiles != null && dropFiles.Length > 0)
             {
-                _viewModel.CacheDocuments(dropFiles);
+                _viewModel.AddDocuments(dropFiles);
                 return;
             }
         }
