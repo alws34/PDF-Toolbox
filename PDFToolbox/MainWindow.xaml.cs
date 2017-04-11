@@ -45,9 +45,11 @@ namespace PDFToolbox
             Toolbox.WireSelectNameOnFocus(tbxDocumentName);
 
             Toolbox.CreateLocalSaveDir();
+
+            //PagesView.ObjectDropped += new EventHandler<DragEventArgs>(PagesView_ObjectDropped);
         }
 
-        private void lbxPages_Drop(object sender, DragEventArgs e)
+        private void PagesView_ObjectDropped(object sender, DragEventArgs e)
         {
             RemoveAdorner();
             
@@ -153,7 +155,7 @@ namespace PDFToolbox
         {
         }
 
-        private void lbxPages_DragEnter(object sender, DragEventArgs e)
+        private void PagesView_DragEnter(object sender, DragEventArgs e)
         {
             bool validType = _viewModel.IsValidDropItem(e.Data);
             //Helpers.D.Log("{0} : {1} : {2}", validType, sender, e.Data.GetFormats());

@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.IO;
 
+using PDFToolbox.IO;
 using PDFToolbox.Common.ViewModels;
 
 
@@ -266,6 +268,7 @@ namespace PDFToolbox.ViewModels
         }
 
         #region Event implimentations
+        #region Commands
         private void OnAddDoc(object param)
         {
             AddNewDoc(new Models.Document()
@@ -375,6 +378,53 @@ namespace PDFToolbox.ViewModels
             SelectedPage.Strings.Clear();
             // impliment and run ClearCanvas on SelectedPage
         }
+        #endregion
+        #region Delegated events
+        #region Pages
+        public void OnObjectDroppedInPages(object sender, DragEventArgs e)
+        {
+            HitTestResult hit = VisualTreeHelper.HitTest(sender as ListBox, e.GetPosition(sender as ListBox));
+
+            // DraggedItem is a pageDict -> rearrange
+            if (e.Data.GetDataPresent(typeof(PageViewModel)))
+            {
+
+                PageViewModel draggedPage = e.Data.GetData(typeof(PageViewModel)) as PageViewModel;
+                ListBoxItem lbxItemDropTarget = Toolbox.FindParent<ListBoxItem>(hit.VisualHit);
+                PageViewModel targetPage;
+                int sourceIndex = SelectedDocument.GetPageIndex(draggedPage);
+                int targetIndex = SelectedDocument.Pages.Count - 1;
+
+                // Move pageDict to last element if dropped on blank-space
+                if (lbxItemDropTarget != null)
+                {
+                    targetPage = lbxItemDropTarget.DataContext as PageViewModel;
+                    targetIndex = SelectedDocument.GetPageIndex(targetPage);
+                }
+                SelectedDocument.Pages.Move(sourceIndex, targetIndex);
+
+                return;
+            }
+
+            // Get any files dropped onto pageview
+            Models.Document[] dropFiles = FileIO.ExtractDocument(e.Data);
+
+            if (SelectedDocument == null)
+            {
+                SelectedDocument = new DocumentViewModel(new Models.Document());
+            }
+
+            // If any files dropped, load their pages
+            if (dropFiles != null && dropFiles.Length > 0)
+            {
+                for (int i = 0; i < dropFiles.Length; i++)
+                {
+                    SelectedDocument.AddPages(dropFiles[i].pages.ToArray());
+                }
+            }
+        }
+        #endregion
+        #endregion
         #endregion
 
         #region Debugging methods

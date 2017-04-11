@@ -23,6 +23,7 @@ namespace PDFToolbox.Views
     /// </summary>
     public partial class PagesView : UserControl
     {
+        #region Dependency Properties
         public static readonly DependencyProperty DocumentProperty = RegisterProperty<DocumentViewModel>("Document");
         public static readonly DependencyProperty ZoomProperty = RegisterProperty<Double>("Zoom");
 
@@ -36,6 +37,20 @@ namespace PDFToolbox.Views
             get { return (Double)GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
+        #endregion
+        #region Event Handling
+        public event EventHandler<DragEventArgs> ObjectDropped;
+        public event EventHandler DragEntered;
+
+        protected virtual void OnObjectDropped(object sender, DragEventArgs e)
+        {
+            ObjectDropped?.Invoke(sender, e);
+        }
+        protected virtual void OnDragEntered(EventArgs e)
+        {
+            DragEntered?.Invoke(this, e);
+        }
+        #endregion
 
         public PagesView()
         {
@@ -47,6 +62,7 @@ namespace PDFToolbox.Views
         {
             //TODO: Need to copy from MainWindow.xaml.cs.  Or do it right this time.
             OnObjectDropped(sender, e);
+            //OnObjectDropped(sender, e);
         }
         private void lbxPages_DragEnter(object sender, DragEventArgs e)
         {
@@ -63,15 +79,14 @@ namespace PDFToolbox.Views
             //TODO: Need to copy from MainWindow.xaml.cs.  Or do it right this time.
         }
 
-        private void OnObjectDropped(object sender, DragEventArgs e)
+        private void OnObjectDroppedd(object sender, DragEventArgs e)
         {
             HitTestResult hit = VisualTreeHelper.HitTest(sender as ListBox, e.GetPosition(sender as ListBox));
+            PageViewModel draggedPage = e.Data.GetData(typeof(PageViewModel)) as PageViewModel;
 
             // DraggedItem is a pageDict -> rearrange
-            if (e.Data.GetDataPresent(typeof(ViewModels.PageViewModel)))
+            if (draggedPage != null)
             {
-
-                PageViewModel draggedPage = e.Data.GetData(typeof(ViewModels.PageViewModel)) as ViewModels.PageViewModel;
                 ListBoxItem lbxItemDropTarget = Toolbox.FindParent<ListBoxItem>(hit.VisualHit);
                 PageViewModel targetPage;
                 int sourceIndex = Document.GetPageIndex(draggedPage);

@@ -2,7 +2,6 @@
         x:Name="winMain"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        
         xmlns:ptb="clr-namespace:PDFToolbox"
         xmlns:localViews="clr-namespace:PDFToolbox.Views"
         xmlns:localVMs="clr-namespace:PDFToolbox.ViewModels"
@@ -93,7 +92,7 @@
                         </ListBox.Resources>
                     </ListBox>
                     <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="#FF6491B6"/>
-                    <localViews:PagesView Grid.Column="2" Document="{Binding SelectedDocument}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
+                    <localViews:PagesView x:Name="PagesView" ObjectDropped="PagesView_ObjectDropped" Grid.Column="2" Document="{Binding SelectedDocument}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
                     
                 </Grid>
                 <Popup x:Name="InputBox" IsOpen="False" Visibility="Collapsed" PlacementTarget="{Binding ElementName=SplitButton}" Placement="Center" >
