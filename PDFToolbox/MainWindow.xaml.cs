@@ -51,44 +51,7 @@ namespace PDFToolbox
 
         private void PagesView_ObjectDropped(object sender, DragEventArgs e)
         {
-            RemoveAdorner();
-            
-            HitTestResult hit = VisualTreeHelper.HitTest(sender as ListBox, e.GetPosition(sender as ListBox));
-
-            // DraggedItem is a pageDict -> rearrange
-            if (e.Data.GetDataPresent(typeof(ViewModels.PageViewModel)))
-            {
-
-                ViewModels.PageViewModel draggedPage = e.Data.GetData(typeof(ViewModels.PageViewModel)) as ViewModels.PageViewModel;
-                ListBoxItem lbxItemDropTarget = Toolbox.FindParent<ListBoxItem>(hit.VisualHit);
-                ViewModels.PageViewModel targetPage;
-
-                // Move pageDict to last element if dropped on blank-space
-                if (lbxItemDropTarget == null)
-                {
-                    _viewModel.MovePage(
-                        _viewModel.SelectedDocument.GetPageIndex(draggedPage),
-                        _viewModel.Pages.Count - 1);
-                }
-                else
-                {
-                    targetPage = lbxItemDropTarget.DataContext as ViewModels.PageViewModel;
-                    _viewModel.MovePage(
-                        _viewModel.SelectedDocument.GetPageIndex(draggedPage),
-                        _viewModel.SelectedDocument.GetPageIndex(targetPage));
-                }
-                return;
-            }
-
-            // Get any files dropped onto pageview
-            Models.Document[] dropFiles = FileIO.ExtractDocument(e.Data);
-
-            // If any files dropped, load their pages
-            if (dropFiles != null && dropFiles.Length > 0)
-            {
-                _viewModel.CachePages(dropFiles);
-                return;
-            }
+            ((ViewModels.MainViewModel) DataContext).OnObjectDroppedInPages(sender, e);
         }
 
         private void lbxDocuments_Drop(object sender, DragEventArgs e)

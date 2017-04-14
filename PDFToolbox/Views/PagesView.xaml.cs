@@ -39,6 +39,7 @@ namespace PDFToolbox.Views
         }
         #endregion
         #region Event Handling
+        // switch these with Behaviors...?
         public event EventHandler<DragEventArgs> ObjectDropped;
         public event EventHandler DragEntered;
 
