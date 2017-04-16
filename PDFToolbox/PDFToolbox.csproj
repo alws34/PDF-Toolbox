@@ -195,6 +195,7 @@
     <Compile Include="Toolbox.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PagesViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\PDFPageViewModel.cs" />
     <Compile Include="Views\PagesView.xaml.cs">

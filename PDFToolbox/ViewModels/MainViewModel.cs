@@ -407,21 +407,7 @@ namespace PDFToolbox.ViewModels
             }
 
             // Get any files dropped onto pageview
-            Models.Document[] dropFiles = FileIO.ExtractDocument(e.Data);
-
-            if (SelectedDocument == null)
-            {
-                SelectedDocument = new DocumentViewModel(new Models.Document());
-            }
-
-            // If any files dropped, load their pages
-            if (dropFiles != null && dropFiles.Length > 0)
-            {
-                for (int i = 0; i < dropFiles.Length; i++)
-                {
-                    SelectedDocument.AddPages(dropFiles[i].pages.ToArray());
-                }
-            }
+            AddDroppedPages(FileIO.ExtractDocument(e.Data));
         }
         #endregion
         #endregion
@@ -460,34 +446,42 @@ namespace PDFToolbox.ViewModels
         #endregion
 
         #region Adding new pages
-        public void CachePages(Models.Document[] documents)
+        public void AddPage(DocumentViewModel document, PageViewModel page)
         {
-            // Exit now if nothing loaded
-            if (documents == null || documents.Length == 0)
-                return;
+            if (document == null) throw new ArgumentNullException("document");
+            if (page == null) throw new ArgumentNullException("page");
 
-            foreach (Models.Document doc in documents)
+            document.AddPage(page);
+        }
+        private void AddPages(DocumentViewModel document, PageViewModel[] pages)
+        {
+            if (document == null) throw new ArgumentNullException("document");
+            if (pages == null) throw new ArgumentNullException("pages");
+
+            for (int i = 0; i < pages.Length; i++)
             {
-                // If no document is selected -> Select & add first document to list & append the rest to it
-                if (SelectedDocument == null)
-                {
-                    Documents.Add(new DocumentViewModel(doc));
-                    SelectedDocument = Documents[Documents.Count-1];
-                }
-                else
-                {
-                    for (int p = 0; p < doc.pages.Count; p++)
-                        SelectedDocument.Pages.Add(doc.pages[p]);
-                }
+                AddPage(document, pages[i]);
             }
         }
 
-        public void AddPage(DocumentViewModel document, PageViewModel page)
+        private void AddDroppedPages(Models.Document[] dropFiles)
         {
-            if (document == null) throw new ArgumentNullException("Document document");
-            if (page == null) throw new ArgumentNullException("PageViewModle page");
+            // Don't make a fuss if this is null...
+            if (dropFiles == null) return;
 
-            document.AddPage(page);
+            if (SelectedDocument == null)
+            {
+                SelectedDocument = new DocumentViewModel(new Models.Document());
+            }
+
+            // If any files dropped, load their pages
+            if (dropFiles != null && dropFiles.Length > 0)
+            {
+                for (int i = 0; i < dropFiles.Length; i++)
+                {
+                    AddPages(SelectedDocument, dropFiles[i].pages.ToArray());
+                }
+            }
         }
 
         #endregion
