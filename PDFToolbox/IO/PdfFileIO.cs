@@ -58,7 +58,7 @@ namespace PDFToolbox.IO
             if (doc.pages.Count > 0)
             {
                 doc.image = doc.pages[0].Image;
-                doc.fName = doc.pages[0].DocName;
+                doc.fName = doc.pages[0].DisplayName;
             }
 
             return doc;
@@ -100,16 +100,16 @@ namespace PDFToolbox.IO
 
                 foreach (ViewModels.PageViewModel vm in document.Pages)
                 {
-                    srcDocPath = FileIO.ToTempFileName(vm.DocName);
-                    pageRotationInRads = vm.FlatRotation * (float)(Math.PI / 180);
+                    srcDocPath = FileIO.ToTempFileName(vm.DisplayName);
+                    pageRotationInRads = vm.Rotation * (float)(Math.PI / 180);
 
 
                     // Copy pageDict from source...
                     if (Path.GetExtension(srcDocPath).ToUpperInvariant() == ".PDF")
                     {
                         srcReader = new iTextSharp.text.pdf.PdfReader(srcDocPath);
-                        pageDict = srcReader.GetPageN(vm.Number-1);
-                        importedPage = targetPdf.GetImportedPage(srcReader, vm.Number-1);
+                        pageDict = srcReader.GetPageN(vm.PageNumber - 1);
+                        importedPage = targetPdf.GetImportedPage(srcReader, vm.PageNumber - 1);
                         pageStamp = targetPdf.CreatePageStamp(importedPage);
                         //pageOrigin = new System.Windows.Point(Math.Cos(pageRotationInRads - (90f * (float)(Math.PI / 180))) * importedPage.Width,
                         //                                      Math.Sin(pageRotationInRads - (180f * (float)(Math.PI / 180))) * importedPage.Height);
@@ -131,7 +131,7 @@ namespace PDFToolbox.IO
                                 0);
                         }
                         // apply any added rotation
-                        pageDict.Put(PdfName.ROTATE, new PdfNumber((vm.FlatRotation) % 360f));
+                        pageDict.Put(PdfName.ROTATE, new PdfNumber((vm.Rotation) % 360f));
                         pageStamp.AlterContents();
                         targetPdf.AddPage(importedPage);
                         

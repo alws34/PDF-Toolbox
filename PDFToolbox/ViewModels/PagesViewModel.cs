@@ -8,12 +8,26 @@ using System.Windows.Media;
 using System.Text;
 
 using PDFToolbox.IO;
+using PDFToolbox.Behaviors;
 
 namespace PDFToolbox.ViewModels
 {
-    class PagesViewModel : Common.ViewModels.ViewModelBase
+    public class PagesViewModel : Common.ViewModels.ViewModelBase, IDropable, IDragable
     {
+        //HACK: using singleton for IDropable.Remove functionality.  Please find a better way and remove
+        private static PagesViewModel _self = null;
+        
         #region Properties
+        public static PagesViewModel Instance
+        {
+            get
+            {
+                if (_self == null)
+                    _self = new PagesViewModel();
+                return _self;
+            }
+        }
+
         private DocumentViewModel _viewingDoc = null;
         public DocumentViewModel ViewingDocument
         {
@@ -34,6 +48,22 @@ namespace PDFToolbox.ViewModels
                 return null;
             }
         }
+
+        Type IDropable.DataType
+        {
+            get
+            {
+                return typeof(ElementViewModel);
+            }
+        }
+
+        public Type DataType
+        {
+            get
+            {
+                return ((IDragable)Instance).DataType;
+            }
+        }
         #endregion
 
         public void OnObjectDroppedInPages(object sender, DragEventArgs e)
@@ -41,7 +71,7 @@ namespace PDFToolbox.ViewModels
             HitTestResult hit = VisualTreeHelper.HitTest(sender as ListBox, e.GetPosition(sender as ListBox));
 
             // DraggedItem is a pageDict -> rearrange
-            if (e.Data.GetDataPresent(typeof(PageViewModel)))
+            /*if (e.Data.GetDataPresent(typeof(PageViewModel)))
             {
 
                 PageViewModel draggedPage = e.Data.GetData(typeof(PageViewModel)) as PageViewModel;
@@ -59,9 +89,10 @@ namespace PDFToolbox.ViewModels
                 ViewingDocument.Pages.Move(sourceIndex, targetIndex);
 
                 return;
-            }
+            }*/
 
             // Get any files dropped onto pageview
+            
             AddDroppedPages(FileIO.ExtractDocument(e.Data));
         }
 
@@ -101,6 +132,26 @@ namespace PDFToolbox.ViewModels
                 {
                     AddPages(ViewingDocument, dropFiles[i].pages.ToArray());
                 }
+            }
+        }
+
+        public void Drop(object data, int index)
+        {
+            ElementViewModel item = (ElementViewModel)data;
+            if (item == null) return;
+
+            if(ViewingDocument.Pages.Where(i => i.ID == item.ID).Count() == 0)
+            {
+                ViewingDocument.Pages.Insert(index, (PageViewModel)item);
+                
+            }
+        }
+
+        public void Remove(object data)
+        {
+            if (data.GetType().BaseType == typeof(ElementViewModel))
+            {
+                ViewingDocument.Pages.Remove((PageViewModel)data);
             }
         }
     }

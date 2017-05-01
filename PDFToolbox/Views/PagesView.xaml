@@ -1,10 +1,12 @@
 ﻿<UserControl x:Class="PDFToolbox.Views.PagesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PDFToolbox.Views"
              xmlns:localVMs="clr-namespace:PDFToolbox.ViewModels"
+             xmlns:localBehaviors="clr-namespace:PDFToolbox.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="ucPagesView">
@@ -24,8 +26,12 @@
                         </Grid.LayoutTransform>
                         <Rectangle Fill="CornflowerBlue" Width="32" Height="32"/>
                         <Image Source="{Binding Image}" Stretch="None" SnapsToDevicePixels="True"/>
-                        <Label Content="{Binding DocName}"  HorizontalContentAlignment="Right" FontSize="24"/>
-                        <Label Content="{Binding Number}" VerticalAlignment="Bottom" FontSize="24"/>
+                        <Label Content="{Binding Path}"  HorizontalContentAlignment="Right" FontSize="24"/>
+                        <Label Content="{Binding PageNumber}" VerticalAlignment="Bottom" FontSize="24"/>
+                        <i:Interaction.Behaviors>
+                            <localBehaviors:DragBehavior/>
+                            <localBehaviors:DropBehavior/>
+                        </i:Interaction.Behaviors>
                     </Grid>
                 </DataTemplate>
             </ListBox.Resources>
@@ -35,5 +41,8 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
+        <i:Interaction.Behaviors>
+            <localBehaviors:DragBehavior/>
+        </i:Interaction.Behaviors>
     </Grid>
 </UserControl>
