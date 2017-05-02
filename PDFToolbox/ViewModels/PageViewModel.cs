@@ -9,7 +9,7 @@ using PDFToolbox.Models;
 
 namespace PDFToolbox.ViewModels
 {
-    public class PageViewModel : ElementViewModel, IDragable
+    public class PageViewModel : ElementViewModel, IDragable, IDropable
     {
         public PageViewModel(Page page) : base(page)
         { }
@@ -44,5 +44,11 @@ namespace PDFToolbox.ViewModels
         {
             PagesViewModel.Instance.Remove(this);
         }
+
+        void IDropable.Drop(object data, int index)
+        {
+            PagesViewModel.Instance.Drop(data, index);
+        }
+        
     }
 }

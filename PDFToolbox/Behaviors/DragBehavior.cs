@@ -38,8 +38,7 @@ namespace PDFToolbox.Behaviors
 
             if(dragObject!=null)
             {
-                DataObject data = new DataObject();
-                data.SetData(dragObject.DataType, AssociatedObject.DataContext);
+                DataObject data = new DataObject(dragObject.DataType, AssociatedObject.DataContext);
                 DragDrop.DoDragDrop(AssociatedObject, data, DragDropEffects.Move);
             }
 

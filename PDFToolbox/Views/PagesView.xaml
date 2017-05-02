@@ -17,7 +17,7 @@
                              PreviewMouseLeftButtonDown="lbxPages_PreviewMouseLeftButtonDown" PreviewMouseMove="lbxPages_PreviewMouseMove">
             <ListBox.Resources>
                 <DataTemplate DataType="{x:Type localVMs:PageViewModel}">
-                    <Grid Margin="10" RenderTransformOrigin="0.5, 0.5" >
+                    <Grid x:Name="someGrid" Margin="10" RenderTransformOrigin="0.5, 0.5" >
                         <Grid.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="{Binding Zoom, ElementName=ucPagesView}" ScaleY="{Binding Zoom, ElementName=ucPagesView}"/>
