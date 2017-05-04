@@ -170,7 +170,9 @@
     <Compile Include="Behaviors\DropBehavior.cs" />
     <Compile Include="Behaviors\IDragable.cs" />
     <Compile Include="Behaviors\IDropable.cs" />
+    <Compile Include="Behaviors\ListBoxDropBehavior.cs" />
     <Compile Include="Common\Commands\DelegateCommand.cs" />
+    <Compile Include="Common\UIHelper.cs" />
     <Compile Include="Common\UIString.cs" />
     <Compile Include="Common\ViewModels\ViewModelBase.cs" />
     <Compile Include="Converters\ImageToSourceConverter.cs" />
