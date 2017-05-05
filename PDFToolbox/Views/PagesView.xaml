@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="ucPagesView">
-    <Grid>
+    <!--Grid-->
         <ListBox Name="lbxPages" ItemsSource="{Binding Document.Pages, ElementName=ucPagesView}" ItemTemplate="{Binding localVMs:PageViewModel}" Background="#FFAFDBFF" 
                              SelectedItem="{Binding SelectedPage, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" SelectionMode="Extended"
                              AllowDrop="True" Drop="lbxPages_Drop" DragEnter="lbxPages_DragEnter"
@@ -30,7 +30,7 @@
                         <Label Content="{Binding PageNumber}" VerticalAlignment="Bottom" FontSize="24"/>
                         <i:Interaction.Behaviors>
                             <localBehaviors:DragBehavior/>
-                            <localBehaviors:DropBehavior/>
+                            <!--localBehaviors:DropBehavior/-->
                         </i:Interaction.Behaviors>
                     </Grid>
                 </DataTemplate>
@@ -44,5 +44,5 @@
                 <localBehaviors:ListBoxDropBehavior/>
             </i:Interaction.Behaviors>
         </ListBox>
-    </Grid>
+    <!--/-->
 </UserControl>
