@@ -14,7 +14,7 @@ namespace PDFToolbox.ViewModels
     public class DocumentViewModel : Common.ViewModels.ViewModelBase
     {
         private Models.Document _doc = null;
-        public ObservableCollection<ViewModels.PageViewModel> Pages { get; private set; }
+        public ObservableCollection<PageViewModel> Pages { get; private set; }
 
         public DocumentViewModel(Models.Document document)
         {
@@ -86,6 +86,7 @@ namespace PDFToolbox.ViewModels
 
         private void OnPagesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            //FIXME: change this to only fire when the count actually changes (on add/remove page)
             // Notify that Count may have been changed
             OnPropertyChanged("PageCount");
 

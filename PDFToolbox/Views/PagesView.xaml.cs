@@ -32,9 +32,9 @@ namespace PDFToolbox.Views
             get { return (DocumentViewModel)GetValue(DocumentProperty); }
             set { SetValue(DocumentProperty, value); }
         }
-        public Double Zoom
+        public double Zoom
         {
-            get { return (Double)GetValue(ZoomProperty); }
+            get { return (double)GetValue(ZoomProperty); }
             set { SetValue(ZoomProperty, value); }
         }
         #endregion

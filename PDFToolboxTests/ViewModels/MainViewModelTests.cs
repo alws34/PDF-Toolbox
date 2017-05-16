@@ -69,7 +69,7 @@ namespace PDFToolbox.ViewModels.Tests
             {
                 MainViewModel m = GenerateBlankMainViewModel();
 
-                m.CacheDocuments(null);
+                m.AddDocuments(null);
             }
 
             [TestMethod()]
@@ -79,7 +79,7 @@ namespace PDFToolbox.ViewModels.Tests
                 MainViewModel m = GenerateBlankMainViewModel();
                 Models.Document[] a = GenerateZeroLengthDocumentArray();
 
-                m.CacheDocuments(a);
+                m.AddDocuments(a);
             }
             [TestMethod()]
             public void DocumentsArrayFilledWithNullsPassed_DocumentsCountEqualsZero_ReturnsTrue()
@@ -87,7 +87,7 @@ namespace PDFToolbox.ViewModels.Tests
                 MainViewModel m = GenerateBlankMainViewModel();
                 Models.Document[] a = GenerateFiveLengthDocumentArrayFilledWithNulls();
 
-                m.CacheDocuments(a);
+                m.AddDocuments(a);
 
                 Assert.IsTrue(m.Documents.Count == 0);
             }
@@ -99,7 +99,7 @@ namespace PDFToolbox.ViewModels.Tests
                 a[1] = new Models.Document();
                 a[3] = new Models.Document();
 
-                m.CacheDocuments(a);
+                m.AddDocuments(a);
 
                 Assert.IsTrue(m.Documents.Count == 2);
             }

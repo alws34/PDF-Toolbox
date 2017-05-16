@@ -245,6 +245,7 @@ namespace PDFToolbox.ViewModels
 
         public MainViewModel()
         {
+
             //----[ Events ]----------------------------------------------------------------
             // General
             _addDoc = new Common.Commands.DelegateCommand(OnAddDoc);

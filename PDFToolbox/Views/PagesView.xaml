@@ -30,7 +30,7 @@
                         <Label Content="{Binding PageNumber}" VerticalAlignment="Bottom" FontSize="24"/>
                         <i:Interaction.Behaviors>
                             <localBehaviors:DragBehavior/>
-                            <!--localBehaviors:DropBehavior/-->
+                            <localBehaviors:DropBehavior/>
                         </i:Interaction.Behaviors>
                     </Grid>
                 </DataTemplate>

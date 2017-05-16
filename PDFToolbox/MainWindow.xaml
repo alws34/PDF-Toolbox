@@ -92,7 +92,7 @@
                         </ListBox.Resources>
                     </ListBox>
                     <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="#FF6491B6"/>
-                    <localViews:PagesView x:Name="PagesView"  Grid.Column="2" Document="{Binding SelectedDocument}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
+                    <localViews:PagesView x:Name="pagesView"  Grid.Column="2" Document="{Binding SelectedDocument}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
 <!--ObjectDropped="PagesView_ObjectDropped"-->
                 </Grid>
                 <Popup x:Name="InputBox" IsOpen="False" Visibility="Collapsed" PlacementTarget="{Binding ElementName=SplitButton}" Placement="Center" >

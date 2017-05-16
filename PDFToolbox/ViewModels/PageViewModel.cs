@@ -39,7 +39,7 @@ namespace PDFToolbox.ViewModels
 
 
         }
-
+        
         public void Remove(object i)
         {
             PagesViewModel.Instance.Remove(this);

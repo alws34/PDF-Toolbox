@@ -53,12 +53,13 @@ namespace PDFToolbox.IO
                 page.image = pageImages[i];
                 
                 doc.pages.Add(new ViewModels.PageViewModel(page));
+                
             }
 
             if (doc.pages.Count > 0)
             {
                 doc.image = doc.pages[0].Image;
-                doc.fName = doc.pages[0].DisplayName;
+                doc.fName = doc.pages[0].FilePath;
             }
 
             return doc;

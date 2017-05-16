@@ -47,9 +47,8 @@ namespace PDFToolbox.Behaviors
                     target = (IDropable)AssociatedObject.DataContext;
                     target.Drop(e.Data.GetData(_droppableType), dropIndex);
                 }
-
-                e.Handled = true;
             }
+            e.Handled = true;
         }
 
         void AssociatedObject_DragLeave(object sender, DragEventArgs e)
@@ -68,7 +67,6 @@ namespace PDFToolbox.Behaviors
                 }
             }
             e.Handled = true;
-
         }
 
         void AssociatedObject_DragEnter(object sender, DragEventArgs e)
@@ -77,7 +75,8 @@ namespace PDFToolbox.Behaviors
             {
                 if(AssociatedObject.DataContext!=null)
                 {
-                    if(AssociatedObject.DataContext as IDropable != null)
+                    Helpers.D.Log(this);
+                    if(this.AssociatedObject.DataContext as IDropable != null)
                     {
                         _droppableType = ((IDropable)AssociatedObject.DataContext).DataType;
                     }

@@ -46,6 +46,8 @@ namespace PDFToolbox
 
             Toolbox.CreateLocalSaveDir();
 
+            pagesView.DataContext = ViewModels.PagesViewModel.Instance;
+
             //PagesView.ObjectDropped += new EventHandler<DragEventArgs>(PagesView_ObjectDropped);
         }
 
