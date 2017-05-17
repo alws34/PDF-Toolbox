@@ -12,7 +12,7 @@ using PDFToolbox.Behaviors;
 
 namespace PDFToolbox.ViewModels
 {
-    public class PagesViewModel : Common.ViewModels.ViewModelBase, IDropable, IDragable
+    public class PagesViewModel : Common.ViewModels.ViewModelBase, IDropable
     {
         //HACK: using singleton for IDropable.Remove functionality.  Please find a better way and remove
         private static PagesViewModel _self = null;

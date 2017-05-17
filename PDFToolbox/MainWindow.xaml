@@ -1,5 +1,4 @@
 ﻿<Window x:Class="PDFToolbox.MainWindow"
-        x:Name="winMain"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ptb="clr-namespace:PDFToolbox"
@@ -7,6 +6,8 @@
         xmlns:localVMs="clr-namespace:PDFToolbox.ViewModels"
         xmlns:localAdorners="clr-namespace:PDFToolbox.Adorners"
         xmlns:localConverters="clr-namespace:PDFToolbox.Converters"
+        xmlns:debug="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        x:Name="winMain"
         Title="PDF Toolbox" Height="500" Width="720" Background="#FFCCDAFF" MinWidth="400" MinHeight="200" Closing="winMain_Closing">
     <Window.Resources>
         <ResourceDictionary>
@@ -57,21 +58,6 @@
                     <TextBox x:Name="tbxDocumentName" Text="{Binding Path=SelectedDocument.DocName, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" />
                     <Slider x:Name="sldPageScale" Grid.Column="1" Value="0.25" Maximum="4" Minimum="0.1" TickFrequency="0.25" TickPlacement="TopLeft" LargeChange="0.5" />
                 </Grid>
-        
-                <Popup x:Name="ppuPageEditor" IsOpen="{Binding IsEditingPage}" PlacementTarget="{Binding ElementName=dplMainMenu}" Width="{Binding ElementName=grdViewers,Path=Width}" 
-                       Placement="Bottom" Margin="5" Grid.RowSpan="2" Grid.Row="1">
-                    <Border BorderBrush="Black" BorderThickness="5" Background="AliceBlue" CornerRadius="5" Width="{Binding ElementName=ppuPageEditor, Path=Width}" Height="{Binding ElementName=ppuPageEditor, Path=Height}">
-                        <!-- Encapsulate Canvas in Viewbox to more easily scale -->
-                        <Canvas Background="{Binding EditPage}">
-                    
-                            <Canvas.Resources>
-                                <DataTemplate DataType="{x:Type localVMs:PageViewModel}">
-                            
-                                </DataTemplate>
-                            </Canvas.Resources>
-                        </Canvas>
-                    </Border>
-                </Popup>
 
                 <Grid x:Name="grdViewers" Margin="5,5,5,5" Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -92,7 +78,7 @@
                         </ListBox.Resources>
                     </ListBox>
                     <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="#FF6491B6"/>
-                    <localViews:PagesView x:Name="pagesView"  Grid.Column="2" Document="{Binding SelectedDocument}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
+                    <localViews:PagesView x:Name="pagesView"  Grid.Column="2" Document="{Binding DataContext.SelectedDocument, RelativeSource={RelativeSource AncestorType=Window}, debug:PresentationTraceSources.TraceLevel=High}" Zoom="{Binding Value, ElementName=sldPageScale}"/>
 <!--ObjectDropped="PagesView_ObjectDropped"-->
                 </Grid>
                 <Popup x:Name="InputBox" IsOpen="False" Visibility="Collapsed" PlacementTarget="{Binding ElementName=SplitButton}" Placement="Center" >
