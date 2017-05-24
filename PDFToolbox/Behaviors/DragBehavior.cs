@@ -32,16 +32,26 @@ namespace PDFToolbox.Behaviors
 
         void AssociatedObject_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (_isMouseClicked == false) return;
-
-            IDragable dragObject = (IDragable)AssociatedObject.DataContext;
-
-            if(dragObject!=null)
+            if (_isMouseClicked)
             {
-                DataObject data = new DataObject(dragObject.DataType, AssociatedObject.DataContext);
-                DragDrop.DoDragDrop(AssociatedObject, data, DragDropEffects.Move);
-            }
 
+                DataObject data;
+                IDragable dragObject = (IDragable)AssociatedObject.DataContext;
+
+                if (dragObject != null)
+                {
+                    data = new DataObject(dragObject.DataType, AssociatedObject.DataContext);
+                    try
+                    {
+                        DragDrop.DoDragDrop(AssociatedObject, data, DragDropEffects.Move);//
+                    }
+                    catch
+                    {
+                        Helpers.D.Error(e);
+                        Toolbox.MessageBox(e.ToString());
+                    }
+                }
+            }
             _isMouseClicked = false;
         }
     }
