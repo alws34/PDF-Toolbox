@@ -30,7 +30,7 @@ namespace PDFToolbox.Behaviors
             _isMouseClicked = false;
         }
 
-        void AssociatedObject_MouseLeave(object sender, MouseEventArgs e)
+        void AssociatedObject_MouseLeave(object sender, MouseEventArgs mouse)
         {
             if (_isMouseClicked)
             {
@@ -45,10 +45,11 @@ namespace PDFToolbox.Behaviors
                     {
                         DragDrop.DoDragDrop(AssociatedObject, data, DragDropEffects.Move);//
                     }
-                    catch
+                    catch(Exception e)
                     {
                         Helpers.D.Error(e);
                         Toolbox.MessageBox(e.ToString());
+                        
                     }
                 }
             }

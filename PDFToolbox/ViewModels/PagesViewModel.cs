@@ -151,7 +151,8 @@ namespace PDFToolbox.ViewModels
         {
             if (data.GetType().BaseType == typeof(ElementViewModel))
             {
-                ViewingDocument.Pages.Remove((PageViewModel)data);
+
+                ViewingDocument?.Pages?.Remove((PageViewModel)data);
             }
         }
     }
